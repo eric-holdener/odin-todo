@@ -12,14 +12,10 @@ class todoItem {
 export default function createNewToDo() {
   let info = getTodoInfo();
 
-  console.log(info);
-
   let title = info[0],
       description = info[1], 
       dueDate = info[2], 
       priority = info[3];
-
-  console.log(title);
 
   let todo = new todoItem(title, description, dueDate, priority);
   return todo;
