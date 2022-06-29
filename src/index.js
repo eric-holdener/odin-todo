@@ -7,12 +7,18 @@ document.getElementById("add-todo").addEventListener("click", function() {
 });
 
 window.onload = function() {
+  let listCollection
   if (localStorage.length == 0) {
-    initializePage();
+    listCollection = initializePage();
   } else {
-    loadFromStorage();
-  }
-}
+    listCollection = loadFromStorage();
+  };
+  let container = document.getElementById("lists-container");
+
+  for (const [key, value] of Object.entries(listCollection)) {
+    displayList(key, value, container);
+  };
+}; 
 
 function initializePage() {
   let listCollection = {};
@@ -21,11 +27,19 @@ function initializePage() {
   listCollection[1] = list;
   localStorage.setItem("listCollection", JSON.stringify(listCollection));
 
+  return listCollection;
 };
 
 function loadFromStorage() {
   let listCollection = JSON.parse(localStorage.getItem("listCollection"));
-  console.log(listCollection);
-
+  return listCollection;
 };
+
+function displayList(key, value, container) {
+  let button = document.createElement("button");
+  button.dataset.id = key;
+  button.innerHTML = value.title;
+
+  container.appendChild(button);
+}
 
