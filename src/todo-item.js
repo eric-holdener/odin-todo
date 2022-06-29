@@ -9,17 +9,35 @@ class todoItem {
   };
 };
 
-function createNewToDo() {
-  title, description, dueDate, priority = getTodoInfo();
+export default function createNewToDo() {
+  let info = getTodoInfo();
+
+  console.log(info);
+
+  let title = info[0],
+      description = info[1], 
+      dueDate = info[2], 
+      priority = info[3];
+
+  console.log(title);
+
   let todo = new todoItem(title, description, dueDate, priority);
   return todo;
 };
 
 function getTodoInfo() {
-  title = document.getElementById("title");
-  description = document.getElementById("description");
-  dueDate = document.getElementById("dueDate");
-  priority = document.getElementById("priority");
+  let title = document.getElementById("title").value;
+  let description = document.getElementById("description").value;
+  let dueDate = document.getElementById("dueDate").value;
+  let priority = document.getElementById("priority").value;
 
-  return title, description, dueDate, priority;
-}
+  console.log(title);
+
+  return [
+    title, 
+    description,
+    dueDate,
+    priority
+  ];
+};
+

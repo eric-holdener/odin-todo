@@ -5,8 +5,40 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToDo List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
+
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Add To-Do
+  </button>
+
+  <div class="collapse" id="collapseExample">
+    <div class="mb-3">
+      <label for="title" class="form-label">To-Do</label>
+      <input type="text" class="form-control" id="title">
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" class="form-control" id="description">
+    </div>
+
+    <div class="mb-3">
+      <label for="dueDate" class="form-label">Due Date</label>
+      <input type="datetime" class="form-control" id="dueDate">
+    </div>
+
+    <div class="mb-3">
+      <label for="priority" class="form-check-label">Priority</label>
+      <input type="checkbox" class="form-check-control" id="priority">
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-primary" id="add-todo">Create To-Do</button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
   <script src="main.js"></script>
 </body>
 </html>
