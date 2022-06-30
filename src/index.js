@@ -56,8 +56,12 @@ function displayList(listCollection) {
   
     if (value.active == true) {
       button.dataset.active = true;
+      displayToDos(value);
     } else {
       button.dataset.active = false;
+      button.addEventListener("click", function(e) {
+        changeActive(e.target);
+      })
     };
   
     container.appendChild(button);
@@ -110,5 +114,19 @@ function getKey(list) {
   }
 
   return newKey;
+};
+
+function changeActive(target) {
+  let current = getActiveList();
+  
+  let listCollection = loadFromStorage();
+  let changingList = listCollection[parseInt(target.dataset.id)];
+  let oldList = listCollection[parseInt(current.dataset.id)];
+  changingList.active = true;
+  oldList.active = false;
+  listCollection[parseInt(target.dataset.id)] = changingList;
+  listCollection[parseInt(current.dataset.id)] = oldList;
+  saveToStorage(listCollection);
+  displayList(listCollection);
 };
 
