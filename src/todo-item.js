@@ -27,8 +27,6 @@ function getTodoInfo() {
   let dueDate = document.getElementById("dueDate").value;
   let priority = document.getElementById("priority").value;
 
-  console.log(title);
-
   return [
     title, 
     description,
