@@ -6,21 +6,25 @@ const container = document.getElementById("lists-container");
 
 document.getElementById("add-todo").addEventListener("click", function() {
   let todo = createNewToDo();
-  let activeList = getActiveList();
+  let activeListDom = getActiveList();
 
-  console.log(activeList);
+  let listCollection = loadFromStorage();
+  let list = listCollection[activeListDom.dataset.id]
 
-  console.log(todo);
+  let key = getKey(list.items);
+  list.items[key] = todo;
+
+  listCollection[activeListDom.dataset.id] = list;
+  saveToStorage(listCollection);
 });
 
 document.getElementById("add-todolist").addEventListener("click", function() {
   let title = getTodoListInfo();
   let newList = createToDoList(title);
   let listCollection = loadFromStorage();
-  let keys = Object.keys(listCollection);
-  let newKey = parseInt(keys[keys.length-1]) + 1
+  let key = getKey(listCollection);
 
-  listCollection[newKey] = newList;
+  listCollection[key] = newList;
   saveToStorage(listCollection);
   displayList(listCollection);
 
@@ -64,7 +68,10 @@ function getActiveList() {
   let children = container.children;
   for (let i = 0; i < children.length; i++) {
     let child = children[i];
-    if (child.dataset.active == true) {
+    console.log(child);
+    console.log(child.dataset.active);
+
+    if (child.dataset.active == "true") {
       return child;
     };
   };
@@ -90,5 +97,18 @@ function wipeContainer() {
   while (container.firstChild) {
     container.firstChild.remove();
   };
+};
+
+function getKey(list) {
+  let keys = Object.keys(list);
+
+  let newKey;
+  if (keys.length > 0) {
+    newKey = parseInt(keys[keys.length-1]) + 1;
+  } else {
+    newKey = 1;
+  }
+
+  return newKey;
 };
 
