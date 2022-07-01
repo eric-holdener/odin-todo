@@ -164,11 +164,20 @@ function buildCard(key, value) {
     let modal = new bootstrap.Modal(document.getElementById(`modalComment${key}`));
     modal.show();
   });
-  openModalButton.innerHTML = "Show Comment";
+  openModalButton.innerHTML = "Show ToDo";
+
+  let deleteCommentButton = document.createElement("button");
+  deleteCommentButton.classList.add("btn");
+  deleteCommentButton.classList.add("btn-danger");
+  deleteCommentButton.addEventListener("click", function() {
+    deleteComment(key);
+  });
+  deleteCommentButton.innerHTML = "Delete ToDo";
 
   cardBody.appendChild(cardHead);
   cardBody.appendChild(cardDate);
   cardBody.appendChild(openModalButton);
+  cardBody.appendChild(deleteCommentButton);
   cardBody.appendChild(modal);
 
   card.appendChild(cardBody);
@@ -243,4 +252,14 @@ function buildModal(key, value) {
   modalContainer.appendChild(modalDialog);
 
   return modalContainer;
+};
+
+function deleteComment(key) {
+  let listCollection = loadFromStorage();
+  let active = parseInt(getActiveList().dataset.id)
+  let list = listCollection[active];
+  delete list.items[key];
+  listCollection[active] = list;
+  saveToStorage(listCollection);
+  displayToDos(list);
 };
