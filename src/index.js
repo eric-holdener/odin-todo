@@ -3,6 +3,7 @@ import createToDoList from "./todo-list";
 import { saveToStorage, loadFromStorage } from "./localStorage";
 
 const container = document.getElementById("lists-container");
+const commentsContainer = document.getElementById("comments-container");
 
 document.getElementById("add-todo").addEventListener("click", function() {
   let todo = createNewToDo();
@@ -16,6 +17,8 @@ document.getElementById("add-todo").addEventListener("click", function() {
 
   listCollection[activeListDom.dataset.id] = list;
   saveToStorage(listCollection);
+
+  displayToDos(list);
 });
 
 document.getElementById("add-todolist").addEventListener("click", function() {
@@ -33,7 +36,6 @@ document.getElementById("add-todolist").addEventListener("click", function() {
 window.onload = function() {
   let listCollection = checkLocalForEmpty();
   displayList(listCollection);
-
 }; 
 
 function initializePage() {
@@ -48,7 +50,7 @@ function initializePage() {
 };
 
 function displayList(listCollection) {
-  wipeContainer();
+  wipeContainer(container);
   for (const [key, value] of Object.entries(listCollection)) {
     let button = document.createElement("button");
     button.dataset.id = key;
@@ -72,8 +74,6 @@ function getActiveList() {
   let children = container.children;
   for (let i = 0; i < children.length; i++) {
     let child = children[i];
-    console.log(child);
-    console.log(child.dataset.active);
 
     if (child.dataset.active == "true") {
       return child;
@@ -97,7 +97,7 @@ function getTodoListInfo() {
   return title;
 };
 
-function wipeContainer() {
+function wipeContainer(container) {
   while (container.firstChild) {
     container.firstChild.remove();
   };
@@ -130,3 +130,36 @@ function changeActive(target) {
   displayList(listCollection);
 };
 
+function displayToDos(list) {
+  wipeContainer(commentsContainer);
+
+  for (const [key, value] of Object.entries(list.items)) {
+    let card = buildCard(key, value);
+    commentsContainer.appendChild(card);
+  };
+}
+
+function buildCard(key, value) {
+  let card = document.createElement("div");
+  card.classList.add("card");
+
+  let cardBody = document.createElement("div");
+  cardBody.classList.add("card-body");
+
+  let cardHead = document.createElement("h2");
+  cardHead.classList.add("card-title");
+  cardHead.innerHTML = value.title;
+
+  let cardDate = document.createElement("p");
+  cardDate.classList.add("card-text");
+  cardDate.innerHTML = value.dueDate;
+
+  cardBody.appendChild(cardHead);
+  cardBody.appendChild(cardDate);
+
+  card.appendChild(cardBody);
+
+  card.dataset.id = key;
+
+  return card;
+};
