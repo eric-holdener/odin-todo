@@ -155,8 +155,21 @@ function buildCard(key, value) {
   cardDate.classList.add("card-text");
   cardDate.innerHTML = value.dueDate;
 
+  let modal = buildModal(key, value);
+
+  let openModalButton = document.createElement("button");
+  openModalButton.classList.add("btn");
+  openModalButton.classList.add("btn-primary");
+  openModalButton.addEventListener("click", function() {
+    let modal = new bootstrap.Modal(document.getElementById(`modalComment${key}`));
+    modal.show();
+  });
+  openModalButton.innerHTML = "Show Comment";
+
   cardBody.appendChild(cardHead);
   cardBody.appendChild(cardDate);
+  cardBody.appendChild(openModalButton);
+  cardBody.appendChild(modal);
 
   card.appendChild(cardBody);
 
@@ -172,4 +185,62 @@ function resetCommentForm() {
   document.getElementById("priority").value = "";
 
   document.getElementById("collapseExample").toggle;
-}
+};
+
+function buildModal(key, value) {
+  let modalContainer = document.createElement("div");
+  modalContainer.classList.add("modal");
+  modalContainer.classList.add("fade");
+  modalContainer.setAttribute("id", `modalComment${key}`);
+  modalContainer.setAttribute("tab-index", "-1");
+  modalContainer.setAttribute("aria-labelledby", `modalComment${key}Label`);
+  modalContainer.setAttribute("aria-hidden", "true");
+
+  let modalDialog = document.createElement("div");
+  modalDialog.classList.add("modal-dialog");
+
+  let modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+
+  let modalHeader = document.createElement("div");
+  modalHeader.classList.add("modal-header");
+  
+  let modalTitle = document.createElement("h5");
+  modalTitle.setAttribute("id", `modalComment${key}Label`);
+  modalTitle.innerHTML = value.title;
+
+  let modalBody = document.createElement("div");
+  modalBody.classList.add("modal-body");
+
+  let modalDescription = document.createElement("p");
+  modalDescription.innerHTML = value.description;
+
+  let modalDuedate = document.createElement("p");
+  modalDuedate.innerHTML = value.dueDate;
+
+  let modalFooter = document.createElement("div");
+  modalFooter.classList.add("modalFooter");
+
+  let closeButton = document.createElement("button");
+  closeButton.classList.add("btn");
+  closeButton.classList.add("btn-primary");
+  closeButton.setAttribute("data-bs-dismiss", "modal");
+  closeButton.innerHTML = "Close"
+
+  modalBody.appendChild(modalDescription);
+  modalBody.appendChild(modalDuedate);
+
+  modalHeader.appendChild(modalTitle);
+
+  modalFooter.appendChild(closeButton);
+
+  modalContent.appendChild(modalHeader);
+  modalContent.appendChild(modalBody);
+  modalContent.appendChild(modalFooter);
+
+  modalDialog.appendChild(modalContent);
+
+  modalContainer.appendChild(modalDialog);
+
+  return modalContainer;
+};
