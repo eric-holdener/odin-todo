@@ -19,6 +19,7 @@ document.getElementById("add-todo").addEventListener("click", function() {
   saveToStorage(listCollection);
 
   displayToDos(list);
+  resetCommentForm();
 });
 
 document.getElementById("add-todolist").addEventListener("click", function() {
@@ -163,3 +164,12 @@ function buildCard(key, value) {
 
   return card;
 };
+
+function resetCommentForm() {
+  document.getElementById("title").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("dueDate").value = "";
+  document.getElementById("priority").value = "";
+
+  document.getElementById("collapseExample").toggle;
+}
